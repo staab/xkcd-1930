@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style type="text/css">
+      #result {
+        width: 80%;
+        margin: 100px auto;
+        text-align: center;
+        font-variant: small-caps;
+        font-size: 32px;
+        font-family: 'Shadows Into Light Two', cursive;
+      }
+    </style>
+    <link href="https://fonts.googleapis.com/css?family=Shadows+Into+Light+Two" rel="stylesheet">
+    <script type="text/javascript">
+      var template = choice([
+        "Did you know that",
+        fork([
+          choice([
+            'the',
+            fork(['fall', 'spring']),
+            'equinox',
+          ]),
+          choice([
+            'the',
+            fork(['winter', 'summer']),
+            fork(['solstice', 'olympics']),
+          ]),
+          choice([
+            'the',
+            fork(['earliest', 'latest']),
+            fork(['sunrise', 'sunset']),
+          ]),
+          choice([
+            'daylight',
+            fork(['saving', 'savings']),
+            'time',
+          ]),
+          choice([
+            'leap',
+            fork(['day', 'year']),
+          ]),
+          'easter',
+          choice([
+            'the',
+            fork(['harvest', 'super', 'blood']),
+          ]),
+          'toyota truck month',
+          'shark week',
+        ]),
+        fork([
+          choice([
+            'happens',
+            fork(['earlier', 'later', 'at the same time']),
+            'every year',
+          ]),
+          choice([
+            'drifts out of sync with the',
+            fork([
+              'sun',
+              'moon',
+              'zodiac',
+              choice([
+                fork(['gregorian', 'mayan', 'lunar', 'iphone']),
+                'calendar',
+              ]),
+              'atomic clock in colorado',
+            ]),
+          ]),
+          choice([
+            'might',
+            fork(['not happen', 'happen twice']),
+          ]),
+        ]),
+        "because of",
+        fork([
+          choice([
+            'time zone legislation in',
+            fork(['indiana', 'arizona', 'russia']),
+          ]),
+          'a decree by the pope in the 1500s',
+          choice([
+            fork([
+              'precession',
+              'liberation',
+              'nutation',
+              'libation',
+              'eccentricity',
+              'obliquity',
+            ]),
+            'of the',
+            fork([
+              'moon',
+              'sun',
+              "earth's axis",
+              'equator',
+              'prime meridian',
+              choice([
+                fork(['international date', 'mason-dixon']),
+                'line',
+              ]),
+            ])
+          ]),
+          'magnetic field reversal',
+          choice([
+            'an arbitrary decision by',
+            fork(['benjamin franklin', 'isaac newton', 'fdr']),
+          ]),
+        ]),
+        "? apparently",
+        fork([
+          'it causes a predictable increase in car accidents.',
+          "that's why we have leap seconds.",
+          'scientists are really worried.',
+          choice([
+            'it was even more extreme during the',
+            fork(['bronze age.', 'ice age.', 'cretaceous.', '1990s']),
+          ]),
+          choice([
+            "there's a proposal to fix it, but it",
+            fork([
+              'will never happen.',
+              'actually makes things worse.',
+              'is stalled in congress.',
+              'might be unconstitutional',
+            ]),
+          ]),
+          "it's getting worse and no one knows why.",
+        ]),
+        'While it may seem like trivia, it',
+        fork([
+          'causes huge headaches for software developers.',
+          'is taken advantage of by high-speed traders.',
+          'triggered the 2003 northeast blackout',
+          'has to be corrected for by GPS satellites',
+          'is now recognized as a major cause of world war I',
+        ]),
+      ])
+
+      function fork(choices) {
+        return {type: 'fork', members: choices}
+      }
+
+      function choice(options) {
+        return {type: 'choice', members: options}
+      }
+
+      function randomChoice(choices) {
+        return choices[Math.floor(Math.random() * choices.length)]
+      }
+
+      function process(element) {
+        if (element.type === 'fork') {
+          return process(randomChoice(element.members))
+        } else if (element.type === 'choice') {
+          return element.members.map(process).join(' ')
+        } else {
+          return element
+        }
+      }
+
+      function regen() {
+        document.querySelector('#result').innerText = process(template)
+          .replace(' ?', '?')
+      }
+
+      document.addEventListener('DOMContentLoaded', regen)
+    </script>
+  </head>
+  <body>
+    <a href="https://xkcd.com/1930/">Source: xkcd</a>
+    &nbsp;
+    <button id="regen" onclick="regen()">Generate</button>
+    <div id="result"></div>
+  </body>
+</html>
